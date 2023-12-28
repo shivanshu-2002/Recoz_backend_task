@@ -9,12 +9,13 @@ app.use(express.json());
 
 // Importing Routes
 const userRoutes  = require("./routes/User");
-const courseRoutes = require("./routes/Course")
-
+const courseRoutes = require("./routes/Course");
 
 // Routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/courses", courseRoutes);
+
+
 
 app.get("/", (req, res) => {
   try {

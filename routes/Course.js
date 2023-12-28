@@ -12,10 +12,9 @@ router.post('/createCourse',auth,isInstructor, courseController.createCourse);
 router.post('/buy/:courseId',auth,isStudent, courseController.buyCourse);
 
 // Delete course route
-router.delete('/:courseId',auth,isInstructor, courseController.deleteCourse);
 
 // Get course details route
-router.get('/:courseId', courseController.getCourseDetails);
+router.get('/:courseId', courseController.courseDetail);
 router.get('/courses', courseController.getAllCourses);
 
 module.exports = router;

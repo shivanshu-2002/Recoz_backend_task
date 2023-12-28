@@ -10,12 +10,12 @@ router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 
 // Delete user route
-router.delete('/:userId',auth, userController.deleteUser);
+router.delete('/:userId', auth, userController.deleteUser);
 
 // Update user details route
-router.put('/:userId',auth, userController.updateUser);
+router.put('/:userId', auth, userController.updateUser);
 
 // Get user courses route
-router.get('/:userId/courses',auth, userController.getUserCourses);
+router.get('/:userId/courses', auth, userController.getUserCourses);
 
 module.exports = router;

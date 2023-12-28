@@ -69,6 +69,33 @@ const courseController = {
       res.status(500).json({ success: false, message: 'Internal server error' });
     }
   },
+  courseDetail: async (req, res) => {
+    try {
+      const courseId = req.params.courseId;
+
+      // Find the course by ID
+      const course = await Course.findById(courseId);
+
+      if (!course) {
+        return res.status(404).json({
+          success: false,
+          message: 'Course not found',
+        });
+      }
+
+      // Return course details
+      res.status(200).json({
+        success: true,
+        course,
+      });
+    } catch (error) {
+      console.error('Course detail error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+      });
+    }
+  },
   getAllCourses: async (req, res) => {
     try {
       // Find all courses
