@@ -89,6 +89,7 @@ const userController = {
     }
   },
   
+  
 
   // Delete user controller
   deleteUser: async (req, res) => {
