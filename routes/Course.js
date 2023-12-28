@@ -9,12 +9,12 @@ const { auth,isInstructor ,isStudent} = require("../middleware/auth");
 router.post('/createCourse',auth,isInstructor, courseController.createCourse);
 
 // Buy course route
-router.post('/buy/:courseId',auth,isStudent, courseController.buyCourse);
+router.post('/courses/buy/:courseId',auth,isStudent, courseController.buyCourse);
 
 // Delete course route
 
 // Get course details route
-router.get('/:courseId', courseController.courseDetail);
+router.get('/courses/:courseId', courseController.courseDetail);
 router.get('/courses', courseController.getAllCourses);
 
 module.exports = router;
