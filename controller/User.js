@@ -48,40 +48,37 @@ const userController = {
         return res.status(401).json({ success: false, message: 'Invalid email or password.' });
       }
   
-      // Check if the password is correct
-      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (await bcrypt.compare(password, user.password)) {
+        const token = await jwt.sign(
+          { email: user.email, id: user._id, role: user.accountType },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "24h",
+           
+          }
+        )
   
-      if (!passwordMatch) {
-        return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+        // Save token to user document in database
+        user.token = token
+        user.password = undefined
+        // Set cookie for token and return success response
+        const options = {
+          expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+          httpOnly: true,
+        }
+        res.cookie("token", token, options).status(200).json({
+          success: true,
+          token,
+          user,
+          message: `User Login Success`,
+        })
+      } else {
+        return res.status(401).json({
+          success: false,
+          message: `Password is incorrect`,
+        })
       }
-  
-      const payload = {
-        email: user.email,
-        id: user._id,
-        accountType: user.accountType
-      };
-  
-      const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: "2h",
-      });
-  
-      user.token = token;
-      user.password = undefined;
-  
-      const options = {
-        maxAge: 3 * 24 * 60 * 60 * 1000, // Set the cookie to expire in 3 days
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Set secure flag for production
-        sameSite: 'Strict', // Set SameSite attribute
-      };
-  
-      // Save token in a cookie and send the response
-      res.cookie("token", token, options).status(200).json({
-        success: true,
-        token,
-        user,
-        message: "Logged In Successfully",
-      });
+
   
     } catch (error) {
       console.error('Login error:', error);
@@ -89,7 +86,7 @@ const userController = {
     }
   },
   
-  
+
 
   // Delete user controller
   deleteUser: async (req, res) => {

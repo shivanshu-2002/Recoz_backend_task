@@ -5,7 +5,12 @@ const dotenv = require("dotenv");
 dotenv.config();
 const database = require("./config/database");
 database.connect();
+
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+app.use(cookieParser());
 app.use(express.json());
+app.use(bodyParser.json({ limit: '150mb' }));
 
 // Importing Routes
 const userRoutes  = require("./routes/User");

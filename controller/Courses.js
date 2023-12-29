@@ -6,7 +6,7 @@ const courseController = {
   buyCourse: async (req, res) => {
     try {
       const courseId = req.params.courseId;
-      const userId = req.body.userId;
+      const userId = req.user.id;
 
       // Find the course
       const course = await Course.findById(courseId);
